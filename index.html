@@ -19,44 +19,52 @@
       text-decoration: none;
       border-radius: 5px;
     }
+    input {
+      width: 90%;
+      padding: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-  <h3 id="status">正在檢查啟動環境⋯</h3>
+  <div id="content">
+    <h3>正在檢查開啟方式⋯</h3>
+  </div>
 
   <script>
-    liff.init({ liffId: "2007537866-487VenaX" })
-      .then(() => {
-        // 檢查是否在 LINE App 中開啟
-        if (!liff.isInClient()) {
-          document.getElementById("status").innerHTML = `
-            <h3>⚠️ 請從 LINE App 裡開啟此連結才能收到邀請函 💌</h3>
-            <p>你可以複製以下連結，貼給 LINE 好友或傳給自己再點開👇</p>
-            <input type="text" value="https://liff.line.me/2007537866-487VenaX" style="width:90%; padding:10px;" readonly onclick="this.select()">
-            <br><br>
-            <a class="button" href="https://line.me/R/ti/p/@opl8696k">📲 加入我們的 LINE 官方帳號</a>
-          `;
-          return;
-        }
+    const isInLINEApp = navigator.userAgent.toLowerCase().includes("line");
 
-        // 若在 LINE App 中，發送訊息
-        document.getElementById("status").innerText = "正在透過金魚的LINE官方傳送邀請函給你⋯";
-        liff.sendMessages([
-          {
-            type: 'text',
-            text: '0616發佈會邀請函'
-          }
-        ]).then(() => {
-          liff.closeWindow();
-        }).catch((err) => {
-          console.error('Send message error:', err);
-          document.getElementById("status").innerHTML = "<h3>發送失敗，請稍後再試 🙏</h3>";
+    if (!isInLINEApp) {
+      // 使用者不是從 LINE 打開，立即顯示提示
+      document.getElementById("content").innerHTML = `
+        <h3>⚠️ 請從 LINE App 裡開啟此連結才能收到邀請函 💌</h3>
+        <p>你可以複製以下連結，貼給自己或好友再從 LINE 裡點開👇</p>
+        <input type="text" value="https://liff.line.me/2007537866-487VenaX" readonly onclick="this.select()">
+        <br><br>
+        <a class="button" href="https://line.me/R/ti/p/@opl8696k">📲 加入我們的 LINE 官方帳號</a>
+      `;
+    } else {
+      // LINE App 環境，開始初始化 LIFF
+      liff.init({ liffId: "2007537866-487VenaX" })
+        .then(() => {
+          document.getElementById("content").innerHTML = `<h3>正在透過金魚的LINE官方傳送邀請函給你⋯</h3>`;
+          liff.sendMessages([
+            {
+              type: 'text',
+              text: '0616發佈會邀請函'
+            }
+          ]).then(() => {
+            liff.closeWindow();
+          }).catch((err) => {
+            console.error('Send message error:', err);
+            document.getElementById("content").innerHTML = "<h3>發送失敗，請稍後再試 🙏</h3>";
+          });
+        })
+        .catch((err) => {
+          console.error('LIFF init error:', err);
+          document.getElementById("content").innerHTML = "<h3>LIFF 初始化失敗，請確認設定</h3>";
         });
-      })
-      .catch((err) => {
-        console.error('LIFF init error:', err);
-        document.getElementById("status").innerHTML = "<h3>LIFF 初始化失敗，請確認 LIFF ID 是否正確</h3>";
-      });
+    }
   </script>
 </body>
 </html>
