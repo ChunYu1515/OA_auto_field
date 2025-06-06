@@ -4,13 +4,43 @@
   <meta charset="utf-8">
   <title>0616發佈會邀請函</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #06c755;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-  <h3>正在透過金魚的LINE官方傳送邀請函給你⋯</h3>
+  <h3 id="status">正在檢查啟動環境⋯</h3>
 
   <script>
     liff.init({ liffId: "2007537866-487VenaX" })
       .then(() => {
+        // 檢查是否在 LINE App 中開啟
+        if (!liff.isInClient()) {
+          document.getElementById("status").innerHTML = `
+            <h3>⚠️ 請從 LINE App 裡開啟此連結才能收到邀請函 💌</h3>
+            <p>你可以複製以下連結，貼給 LINE 好友或傳給自己再點開👇</p>
+            <input type="text" value="https://liff.line.me/2007537866-487VenaX" style="width:90%; padding:10px;" readonly onclick="this.select()">
+            <br><br>
+            <a class="button" href="https://line.me/R/ti/p/@你的LINE帳號ID">📲 加入我們的 LINE 官方帳號</a>
+          `;
+          return;
+        }
+
+        // 若在 LINE App 中，發送訊息
+        document.getElementById("status").innerText = "正在透過金魚的LINE官方傳送邀請函給你⋯";
         liff.sendMessages([
           {
             type: 'text',
@@ -20,10 +50,12 @@
           liff.closeWindow();
         }).catch((err) => {
           console.error('Send message error:', err);
+          document.getElementById("status").innerHTML = "<h3>發送失敗，請稍後再試 🙏</h3>";
         });
       })
       .catch((err) => {
         console.error('LIFF init error:', err);
+        document.getElementById("status").innerHTML = "<h3>LIFF 初始化失敗，請確認 LIFF ID 是否正確</h3>";
       });
   </script>
 </body>
