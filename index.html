@@ -14,7 +14,7 @@
       display: inline-block;
       margin-top: 20px;
       padding: 10px 20px;
-      background-color: #06c755;
+      background-color: #FF95CA;
       color: white;
       text-decoration: none;
       border-radius: 5px;
@@ -37,17 +37,14 @@
     if (!isInLINEApp) {
       // 使用者不是從 LINE 打開，立即顯示提示
       document.getElementById("content").innerHTML = `
-        <h3>⚠️ 請從 LINE App 裡開啟此連結才能收到邀請函 💌</h3>
-        <p>你可以複製以下連結，貼給自己或好友再從 LINE 裡點開👇</p>
-        <input type="text" value="https://liff.line.me/2007537866-487VenaX" readonly onclick="this.select()">
-        <br><br>
-        <a class="button" href="https://line.me/R/ti/p/@opl8696k">📲 加入我們的 LINE 官方帳號</a>
+        <h3>⚠️ 邀請函將透過 Line官方 發送💌</h3>
+        <a class="button" href="https://line.me/R/ti/p/@opl8696k">📲 加入 LINE官方</a>
       `;
     } else {
       // LINE App 環境，開始初始化 LIFF
       liff.init({ liffId: "2007537866-487VenaX" })
         .then(() => {
-          document.getElementById("content").innerHTML = `<h3>正在透過金魚的LINE官方傳送邀請函給你⋯</h3>`;
+          document.getElementById("content").innerHTML = `<h3>正在透過 LINE官方 傳送邀請函給你⋯</h3>`;
           liff.sendMessages([
             {
               type: 'text',
