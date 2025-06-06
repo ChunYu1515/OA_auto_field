@@ -1,67 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <title>0616發佈會邀請函</title>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <meta charset="UTF-8">
+  <title>邀請函將透過官方LINE發送</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="3;url=https://liff.line.me/2007537866-487VenaX">
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
       padding: 40px;
+      background-color: #f9f9f9;
     }
     .button {
       display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
+      margin-top: 28px;
+      padding: 20px 36px;
       background-color: #FF95CA;
       color: white;
       text-decoration: none;
-      border-radius: 5px;
-    }
-    input {
-      width: 90%;
-      padding: 10px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-size: 28px;
     }
   </style>
 </head>
 <body>
-  <div id="content">
-    <h3>正在檢查開啟方式⋯</h3>
-  </div>
+  <h2>📩 步驟一：加入 LINE 官方帳號</h2>
+  <p>完成後，我會立即傳送 <strong>0616 發佈會邀請函</strong> 給你 💌</p>
+  <a class="button" href="https://line.me/R/ti/p/@你的LINE帳號ID" target="_blank">✅ 點我加入 LINE 好友</a>
 
-  <script>
-    const isInLINEApp = navigator.userAgent.toLowerCase().includes("line");
-
-    if (!isInLINEApp) {
-      // 使用者不是從 LINE 打開，立即顯示提示
-      document.getElementById("content").innerHTML = `
-        <h3>⚠️ 邀請函將透過 Line官方 發送💌</h3>
-        <a class="button" href="https://line.me/R/ti/p/@opl8696k">📲 加入 LINE官方</a>
-      `;
-    } else {
-      // LINE App 環境，開始初始化 LIFF
-      liff.init({ liffId: "2007537866-487VenaX" })
-        .then(() => {
-          document.getElementById("content").innerHTML = `<h3>正在透過 LINE官方 傳送邀請函給你⋯</h3>`;
-          liff.sendMessages([
-            {
-              type: 'text',
-              text: '0616發佈會邀請函'
-            }
-          ]).then(() => {
-            liff.closeWindow();
-          }).catch((err) => {
-            console.error('Send message error:', err);
-            document.getElementById("content").innerHTML = "<h3>發送失敗，請稍後再試 🙏</h3>";
-          });
-        })
-        .catch((err) => {
-          console.error('LIFF init error:', err);
-          document.getElementById("content").innerHTML = "<h3>LIFF 初始化失敗，請確認設定</h3>";
-        });
-    }
-  </script>
+  <p style="margin-top:30px;">系統將於 3 秒後自動傳送邀請函<br>若未自動跳轉，請手動點擊下方按鈕 👇</p>
+  <a href="https://liff.line.me/2007537866-487VenaX" class="button">📨 手動領取邀請函</a>
 </body>
 </html>
